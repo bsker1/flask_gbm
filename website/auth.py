@@ -23,7 +23,7 @@ def login():
         else:
             flash('Username not found', category='danger')
 
-    return render_template("login.html", user=current_user)
+    return render_template('login.html', user=current_user)
 
 @login_required
 @auth.route('/logout')
@@ -39,11 +39,11 @@ def sign_up():
         confirm_password = request.form.get('confirm_password')
         user_query = User.query.filter_by(username=username).first()
         if user_query:
-            flash("Username already exists.", category="danger")
+            flash('Username already exists.', category='danger')
         if len(password) < 8:
-            flash("Password must be 8 or more characters long.", category="danger")
+            flash('Password must be 8 or more characters long.', category='danger')
         elif password != confirm_password:
-            flash("Passwords do not match.", category="danger")
+            flash('Passwords do not match.', category='danger')
         else:
             new_user = User(
             username=username,
@@ -51,7 +51,7 @@ def sign_up():
             )
             db.session.add(new_user)
             db.session.commit()
-            flash("Account created!", category="success")
+            flash('Account created!', category='success')
             return redirect(url_for('auth.login'))
 
-    return render_template("sign_up.html", user=current_user)
+    return render_template('sign_up.html', user=current_user)
