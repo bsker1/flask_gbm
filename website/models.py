@@ -6,10 +6,20 @@ class User(db.Model, UserMixin):
   id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(64), unique=True)
   password = db.Column(db.String(64))
-  notes = db.relationship('Note')
+  platforms = db.relationship('Platform')
+  games = db.relationship('Game')
 
-class Note(db.Model):
+class Platform(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  content = db.Column(db.String(8192))
-  date = db.Column(db.DateTime(timezone=True), default=func.now())
+  title = db.Column(db.String(64))
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+  games = db.relationship('Game')
+
+class Game(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  title = db.Column(db.String(128))
+  format = db.Column(db.String(16))
+  completion = db.Column(db.String(16))
+  backlogged = db.Column(db.String(8))
+  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+  platform_id = db.Column(db.Integer, db.ForeignKey('platform.id'))
