@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Add Platform{% endblock %}
+
+{% block content %}
+  <br />
+  <h1 align="center">Add Platform</h1>
+  <br />
+  <ul class="list-group list-group-flush" id="platforms">
+    {% for platform in user.platforms %}
+      <li class="list-group-item">{{ platform.title }}
+        <button type="button" class="close" onClick="deletePlatform({{ platform.id }})">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </li>
+    {% endfor %}
+  </ul>
+  <form method="POST">
+    <textarea name="platform" id="platform" class="form-control"></textarea>
+    <br />
+    <div align="center">
+      <button type="submit" class="btn btn-primary">Add Platform</button>
+    </div>
+  </form>
+{% endblock %}

@@ -1,8 +1,8 @@
-function deleteNote(noteId) {
-  fetch("/delete-note", {
+function deletePlatform(platformId) {
+  fetch("/delete-platform", {
     method: "POST",
-    body: JSON.stringify({ noteId: noteId }),
+    body: JSON.stringify({ platformId: platformId }),
   }).then((_res) => {
-    window.location.href = "/home";
+    window.location.href = "/add-platform";
   });
 }
