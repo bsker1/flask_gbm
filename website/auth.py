@@ -40,7 +40,7 @@ def sign_up():
         user_query = User.query.filter_by(username=username).first()
         if user_query:
             flash('Username already exists.', category='danger')
-        if len(password) < 8:
+        elif len(password) < 8:
             flash('Password must be 8 or more characters long.', category='danger')
         elif password != confirm_password:
             flash('Passwords do not match.', category='danger')
