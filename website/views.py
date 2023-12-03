@@ -53,3 +53,15 @@ def delete_platform():
             db.session.commit()
     
     return jsonify({})
+
+@views.route('/delete-game', methods=['POST'])
+def delete_game():
+    game = json.loads(request.data)
+    gameId = game['gameId']
+    game = Game.query.get(gameId)
+    if game:
+        if game.user_id == current_user.id:
+            db.session.delete(game)
+            db.session.commit()
+    
+    return jsonify({})
