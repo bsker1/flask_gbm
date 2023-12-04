@@ -47,8 +47,14 @@ def gaming_backlog_manager():
             db.session.add(new_game)
             db.session.commit()
             flash('Game successfully added!', category='success')
+    
+    platforms_dict = dict()
+    platform_query = Platform.query.filter(Platform.user_id == current_user.id).all()
+    for platform in platform_query:
+        platforms_dict[platform.id] = platform.title
 
-    return render_template('gaming_backlog_manager.html', user=current_user)
+    print(platforms_dict)
+    return render_template('gaming_backlog_manager.html', user=current_user, platforms=platforms_dict)
 
 @views.route('/platforms', methods=['GET', 'POST'])
 @login_required
