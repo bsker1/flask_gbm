@@ -16,6 +16,38 @@ def root():
 @views.route('/gaming-backlog-manager', methods=['GET', 'POST'])
 @login_required
 def gaming_backlog_manager():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        platform_id = request.form.get('platform_id')
+        format = request.form.get('format')
+        completion = request.form.get('completion')
+        backlogged = "No"
+        if request.form.get('backlogged') == "Yes":
+            backlogged = "Yes"
+        
+        if len(title) < 1:
+            flash('Please enter a title.', category='danger')
+        elif len(title) > 128:
+            flash('Title is too long!', category='danger')
+        elif platform_id == 'Select platform':
+            flash('Please select a platform.', category='danger')
+        elif format == 'Select format':
+            flash('Please select a format.', category='danger')
+        elif completion == 'Select completion':
+            flash('Please select a completion.', category='danger')
+        else:
+            new_game = Game(
+                title=title,
+                platform_id=platform_id,
+                format=format,
+                completion=completion,
+                backlogged=backlogged,
+                user_id=current_user.id
+            )
+            db.session.add(new_game)
+            db.session.commit()
+            flash('Game successfully added!', category='success')
+
     return render_template('gaming_backlog_manager.html', user=current_user)
 
 @views.route('/platforms', methods=['GET', 'POST'])

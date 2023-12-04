@@ -37,8 +37,12 @@ def sign_up():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
         user_query = User.query.filter_by(username=username).first()
-        if user_query:
+        if len(username) > 64:
+            flash('Username is too long!', category='danger')
+        elif user_query:
             flash('Username already exists.', category='danger')
+        elif len(password) > 64:
+            flash('Password is too long!', category='danger')
         elif len(password) < 8:
             flash('Password must be 8 or more characters long.', category='danger')
         elif password != confirm_password:
