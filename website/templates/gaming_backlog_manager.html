@@ -5,4 +5,67 @@
   <br />
   <h1 align="center">Gaming Backlog Manager</h1>
   <br />
+
+  <form method="POST">
+    <div class="form-group">
+      <label for="title"><h5>Game title</h5></label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        placeholder="Enter title"
+      />
+    </div>
+    <label for="platform"><h5>Platform</h5></label>
+    <select style="margin-left: 5px;">
+      <option selected>Select platform</option>
+      {% for platform in user.platforms %}
+        <option value="{{ platform.id }}">{{ platform.title }}</option>
+      {% endfor %}
+    </select>
+    <p style="text-indent: 15px; margin-top: -15px;">
+      <small>Don't see your desired platform? Add it on the 
+        <a href="/platforms">Platforms</a> page!
+      </small>
+    </p>
+    <label for="format"><h5>Format</h5></label>
+    <select style="margin-left: 5px;">
+      <option selected>Select format</option>
+      <option value="Physical">Physical</option>
+      <option value="Digital">Digital</option>
+      <option value="Emulated">Emulated</option>
+    </select>
+    <br />
+    <label for="completion"><h5>Completion</h5></label>
+    <select style="margin-left: 5px;">
+      <option selected>Select completion</option>
+      <option value="New">New</option>
+      <option value="Started">Started</option>
+      <option value="Complete">Complete</option>
+    </select>
+    <div class="form-group">
+      <label for="backlog_it"><h5>Backlog it?</h5></label>
+      <input
+        type="checkbox"
+        class="form-check-input form-check-input-lg"
+        style="margin-left: 10px; margin-top: 6px;"
+        id="backlogged"
+        name="backlogged"
+        value="Yes"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Game</button>
+  </form>
+  <br />
+
+  <ul class="list-group list-group-flush" id="games">
+    {% for game in user.games %}
+      <li class="list-group-item">{{ game.title }}
+        <button type="button" class="close" onClick="deleteGame({{ game.id }})">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}

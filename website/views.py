@@ -25,6 +25,8 @@ def platforms():
         platform = request.form.get('platform')
         if len(platform) < 1:
             flash('Platform field is empty!', category='danger')
+        elif len(platform) > 64:
+            flash('Platform name is too long!', category='danger')
         else:
             new_platform = Platform(title=platform, user_id=current_user.id)
             db.session.add(new_platform)

@@ -3,7 +3,7 @@ function deletePlatform(platformId) {
     method: "POST",
     body: JSON.stringify({ platformId: platformId }),
   }).then((_res) => {
-    window.location.href = "/add-platform";
+    window.location.href = "/platforms";
   });
 }
 
@@ -12,6 +12,6 @@ function deleteGame(gameId) {
     method: "POST",
     body: JSON.stringify({ gameId: gameId }),
   }).then((_res) => {
-    window.location.href = "/home";
+    window.location.href = "/gaming-backlog-manager";
   });
 }
