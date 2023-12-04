@@ -1,9 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Add Platform{% endblock %}
+{% block title %}Platforms{% endblock %}
 
 {% block content %}
   <br />
-  <h1 align="center">Add Platform</h1>
+  <h1 align="center">Platforms</h1>
+  <br />
+  <form method="POST">
+    <textarea name="platform" id="platform" class="form-control"></textarea>
+    <br />
+    <div align="center">
+      <button type="submit" class="btn btn-primary">Add Platform</button>
+    </div>
+  </form>
   <br />
   <ul class="list-group list-group-flush" id="platforms">
     {% for platform in user.platforms %}
@@ -14,11 +22,4 @@
       </li>
     {% endfor %}
   </ul>
-  <form method="POST">
-    <textarea name="platform" id="platform" class="form-control"></textarea>
-    <br />
-    <div align="center">
-      <button type="submit" class="btn btn-primary">Add Platform</button>
-    </div>
-  </form>
 {% endblock %}

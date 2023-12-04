@@ -16,8 +16,7 @@ def login():
         if user_query:
             if password == user_query.password:
                 login_user(user_query, remember=True)
-                flash('Login successful!', category='success')
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.gaming_backlog_manager'))
             else:
                 flash('Incorrect password.', category='danger')
         else:

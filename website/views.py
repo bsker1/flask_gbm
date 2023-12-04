@@ -8,28 +8,19 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def root():
+    if current_user.is_authenticated:
+        return redirect(url_for('views.gaming_backlog_manager'))
+
     return redirect(url_for('auth.login'))
 
-@views.route('/home', methods=['GET', 'POST'])
+@views.route('/gaming-backlog-manager', methods=['GET', 'POST'])
 @login_required
-def home():
-    """
-    if request.method == 'POST':
-        note = request.form.get('note')
-        if len(note) < 1:
-            flash('Note is empty!', category='danger')
-        else:
-            new_note = Note(content=note, user_id=current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-            flash('Note added!', category='success')
-    """
+def gaming_backlog_manager():
+    return render_template('gaming_backlog_manager.html', user=current_user)
 
-    return render_template('home.html', user=current_user)
-
-@views.route('/add-platform', methods=['GET', 'POST'])
+@views.route('/platforms', methods=['GET', 'POST'])
 @login_required
-def add_platform():
+def platforms():
     if request.method == 'POST':
         platform = request.form.get('platform')
         if len(platform) < 1:
@@ -40,7 +31,7 @@ def add_platform():
             db.session.commit()
             flash('Platform added successfully!', category='success')
 
-    return render_template('add_platform.html', user=current_user)
+    return render_template('platforms.html', user=current_user)
 
 @views.route('/delete-platform', methods=['POST'])
 def delete_platform():
