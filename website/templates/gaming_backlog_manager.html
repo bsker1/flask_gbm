@@ -8,7 +8,7 @@
 
   <div class="dropdown">
     <button
-      class="btn btn-primary dropdown-toggle"
+      class="btn btn-success dropdown-toggle"
       type="button"
       id="add_game_dropdown"
       data-toggle="dropdown"
@@ -67,7 +67,7 @@
               value="Yes"
             />
           </div>
-          <button type="submit" class="btn btn-primary">Add Game</button>
+          <button type="submit" class="btn btn-success">Add Game</button>
         </form>
       </div>
     </div>
@@ -79,19 +79,14 @@
       <thead>
         <tr>
           <th scope="col">
-            <button disabled type="button" class="close">
-              <span aria-hidden="true">&#9733;</span>
-            </button>
+            <button disabled type="button" class="close">&#9733;</button>
           </th>
           <th scope="col">Title</th>
           <th scope="col">Platform</th>
           <th scope="col">Format</th>
           <th scope="col">Completion</th>
-          <th scope="col">
-            <button disabled type="button" class="close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -100,9 +95,9 @@
             <td scope="row">
               <button type="button" class="close" onClick="toggleBacklogged({{ game.id }})">
                 {% if game.backlogged == 'Yes' %}
-                  <span aria-hidden="true">&#9733;</span>
+                  &#9733;
                 {% else %}
-                  <span aria-hidden="true">&#9734;</span>
+                  &#9734;
                 {% endif %}
               </button>
             </td>
@@ -111,8 +106,13 @@
             <td>{{ game.format }}</td>
             <td>{{ game.completion }}</td>
             <td>
-              <button type="button" class="close" onClick="deleteGame({{ game.id }})">
-                <span aria-hidden="true">&times;</span>
+              <button type="button" class="btn btn-primary btn-sm">
+                &#9999;
+              </button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger btn-sm" onClick="deleteGame({{ game.id }})">
+                &times;
               </button>
             </td>
           </tr>
