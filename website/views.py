@@ -15,7 +15,7 @@ def root():
 
 @views.route('/gaming-backlog-manager', methods=['GET', 'POST'])
 @login_required
-def gaming_backlog_manager():    
+def gaming_backlog_manager():
     platforms_dict = dict()
     platform_query = Platform.query.filter(Platform.user_id == current_user.id).all()
     for platform in platform_query:
