@@ -63,7 +63,11 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">&#9733;</th>
+          <th scope="col">
+            <button disabled type="button" class="close">
+              <span aria-hidden="true">&#9733;</span>
+            </button>
+          </th>
           <th scope="col">Title</th>
           <th scope="col">Platform</th>
           <th scope="col">Format</th>
@@ -78,11 +82,15 @@
       <tbody>
         {% for game in user.games %}
           <tr>
-            {% if game.backlogged == 'Yes' %}
-              <td scope="row">&#9733;</td>
-            {% else %}
-              <td scope="row">&#9734;</td>
-            {% endif %}
+            <td scope="row">
+              <button type="button" class="close" onClick="toggleBacklogged({{ game.id }})">
+                {% if game.backlogged == 'Yes' %}
+                  <span aria-hidden="true">&#9733;</span>
+                {% else %}
+                  <span aria-hidden="true">&#9734;</span>
+                {% endif %}
+              </button>
+            </td>
             <td>{{ game.title }}</td>
             <td>{{ platforms[game.platform_id] }}</td>
             <td>{{ game.format }}</td>

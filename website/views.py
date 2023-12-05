@@ -73,6 +73,8 @@ def platforms():
 
     return render_template('platforms.html', user=current_user)
 
+
+
 @views.route('/delete-platform', methods=['POST'])
 def delete_platform():
     platform = json.loads(request.data)
@@ -94,5 +96,18 @@ def delete_game():
         if game.user_id == current_user.id:
             db.session.delete(game)
             db.session.commit()
+    
+    return jsonify({})
+
+@views.route('/toggle-backlogged', methods=['POST'])
+def toggle_backlogged():
+    game = json.loads(request.data)
+    gameId = game['gameId']
+    game = Game.query.get(gameId)
+    if game.backlogged == 'Yes':
+        game.backlogged = 'No'
+    else:
+        game.backlogged = 'Yes'
+    db.session.commit()
     
     return jsonify({})

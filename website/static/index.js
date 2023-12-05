@@ -15,3 +15,12 @@ function deleteGame(gameId) {
     window.location.href = "/gaming-backlog-manager";
   });
 }
+
+function toggleBacklogged(gameId) {
+  fetch("/toggle-backlogged", {
+    method: "POST",
+    body: JSON.stringify({ gameId: gameId }),
+  }).then((_res) => {
+    window.location.href = "/gaming-backlog-manager";
+  });
+}
