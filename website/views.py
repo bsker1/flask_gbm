@@ -13,6 +13,8 @@ def root():
 
     return redirect(url_for('auth.login'))
 
+from . import IS_LISTED
+
 @views.route('/gaming-backlog-manager', methods=['GET', 'POST'])
 @login_required
 def gaming_backlog_manager():
@@ -20,9 +22,8 @@ def gaming_backlog_manager():
     platform_query = Platform.query.filter(Platform.user_id == current_user.id).all()
     for platform in platform_query:
         platforms_dict[platform.id] = platform.title
-
-    print(platforms_dict)
-    return render_template('gaming_backlog_manager.html', user=current_user, platforms=platforms_dict)
+    
+    return render_template('gaming_backlog_manager.html', user=current_user, platforms=platforms_dict, is_listed=IS_LISTED)
 
 @views.route('/platforms', methods=['GET', 'POST'])
 @login_required
@@ -79,6 +80,17 @@ def toggle_backlogged():
     db.session.commit()
     
     return jsonify({})
+
+@views.route('/toggle-backlog-list', methods=['POST'])
+def toggle_backlog_list():
+    isListed = json.loads(request.data)
+    if isListed['isListed'] == 0:
+        IS_LISTED[0] = 1
+    else:
+        IS_LISTED[0] = 0
+    
+    return jsonify({})
+
 
 @views.route('/add-game', methods=['POST'])
 def add_game():

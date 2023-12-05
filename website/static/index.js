@@ -24,3 +24,12 @@ function toggleBacklogged(gameId) {
     window.location.href = "/gaming-backlog-manager";
   });
 }
+
+function toggleBacklogList(isListed) {
+  fetch("/toggle-backlog-list", {
+    method: "POST",
+    body: JSON.stringify({ isListed: isListed }),
+  }).then((_res) => {
+    window.location.href = "/gaming-backlog-manager";
+  });
+}

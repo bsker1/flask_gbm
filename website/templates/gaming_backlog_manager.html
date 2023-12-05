@@ -80,7 +80,13 @@
         <tr>
           <th scope="col"></th>
           <th scope="col">
-            <button disabled type="button" class="close">&#9733;</button>
+            <button type="button" class="close" onClick="toggleBacklogList({{ is_listed[0] }})">
+              {% if is_listed[0] == 0 %}
+                &#9733;
+              {% else %}
+                &#9734;
+              {% endif %}
+            </button>
           </th>
           <th scope="col">Title</th>
           <th scope="col">Platform</th>
@@ -91,97 +97,99 @@
       </thead>
       <tbody>
         {% for game in user.games %}
-          <tr>
-            <td>
-              <div class="dropdown">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  data-toggle="dropdown"
-                  id="edit_game_dropdown"
-                >
-                  &#9999;
-                </button>
-                <div class="dropdown-menu" aria-labelledby="edit_game_dropdown">
-                  <div class="dropdown-item">
-                    <form action="/edit-game" method="POST" style="margin-top: 5px; margin-bottom: 5px;">
-                      <input type="hidden" name="id" id="id" value="{{ game.id }}" />
-                      <div class="form-group">
-                        <label for="title"><h5>Game title</h5></label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="title"
-                          name="title"
-                          value="{{ game.title }}"
-                        />
-                      </div>
-                      <label for="platform_id"><h5>Platform</h5></label>
-                      <select style="margin-left: 5px;" id="platform_id" name="platform_id">
-                        <option selected value="{{ game.platform_id }}">{{ platforms[game.platform_id] }}</option>
-                        {% for platform in user.platforms %}
-                          <option value="{{ platform.id }}">{{ platform.title }}</option>
-                        {% endfor %}
-                      </select>
-                      <p style="margin-left: 15px; margin-top: -15px;">
-                        <small>Don't see your desired platform? Add it on the 
-                          <a href="/platforms">Platforms</a> page!
-                        </small>
-                      </p>
-                      <label for="format"><h5>Format</h5></label>
-                      <select style="margin-left: 5px;" id="format" name="format">
-                        <option selected>{{ game.format }}</option>
-                        <option value="Physical">Physical</option>
-                        <option value="Digital">Digital</option>
-                        <option value="Emulated">Emulated</option>
-                      </select>
-                      <br />
-                      <label for="completion"><h5>Completion</h5></label>
-                      <select style="margin-left: 5px;" id="completion" name="completion">
-                        <option selected>{{ game.completion }}</option>
-                        <option value="New">New</option>
-                        <option value="Started">Started</option>
-                        <option value="Complete">Complete</option>
-                      </select>
-                      <div class="form-group">
-                        <label for="backlog_it"><h5>Backlog it?</h5></label>
-                        <input
-                          type="checkbox"
-                          class="form-check-input form-check-input-lg"
-                          style="margin-left: 10px; margin-top: 6px;"
-                          id="backlogged"
-                          name="backlogged"
-                          value="Yes"
-                          {% if game.backlogged == 'Yes' %}
-                            checked
-                          {% endif %}
-                        />
-                      </div>
-                      <button type="submit" class="btn btn-primary">Edit Game</button>
-                    </form>
+          {% if is_listed[0] == 1 or game.backlogged == 'Yes' %}
+            <tr>
+              <td>
+                <div class="dropdown">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    data-toggle="dropdown"
+                    id="edit_game_dropdown"
+                  >
+                    &#9999;
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="edit_game_dropdown">
+                    <div class="dropdown-item">
+                      <form action="/edit-game" method="POST" style="margin-top: 5px; margin-bottom: 5px;">
+                        <input type="hidden" name="id" id="id" value="{{ game.id }}" />
+                        <div class="form-group">
+                          <label for="title"><h5>Game title</h5></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="title"
+                            name="title"
+                            value="{{ game.title }}"
+                          />
+                        </div>
+                        <label for="platform_id"><h5>Platform</h5></label>
+                        <select style="margin-left: 5px;" id="platform_id" name="platform_id">
+                          <option selected value="{{ game.platform_id }}">{{ platforms[game.platform_id] }}</option>
+                          {% for platform in user.platforms %}
+                            <option value="{{ platform.id }}">{{ platform.title }}</option>
+                          {% endfor %}
+                        </select>
+                        <p style="margin-left: 15px; margin-top: -15px;">
+                          <small>Don't see your desired platform? Add it on the 
+                            <a href="/platforms">Platforms</a> page!
+                          </small>
+                        </p>
+                        <label for="format"><h5>Format</h5></label>
+                        <select style="margin-left: 5px;" id="format" name="format">
+                          <option selected>{{ game.format }}</option>
+                          <option value="Physical">Physical</option>
+                          <option value="Digital">Digital</option>
+                          <option value="Emulated">Emulated</option>
+                        </select>
+                        <br />
+                        <label for="completion"><h5>Completion</h5></label>
+                        <select style="margin-left: 5px;" id="completion" name="completion">
+                          <option selected>{{ game.completion }}</option>
+                          <option value="New">New</option>
+                          <option value="Started">Started</option>
+                          <option value="Complete">Complete</option>
+                        </select>
+                        <div class="form-group">
+                          <label for="backlog_it"><h5>Backlog it?</h5></label>
+                          <input
+                            type="checkbox"
+                            class="form-check-input form-check-input-lg"
+                            style="margin-left: 10px; margin-top: 6px;"
+                            id="backlogged"
+                            name="backlogged"
+                            value="Yes"
+                            {% if game.backlogged == 'Yes' %}
+                              checked
+                            {% endif %}
+                          />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Edit Game</button>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </td>
-            <td scope="row">
-              <button type="button" class="close" onClick="toggleBacklogged({{ game.id }})">
-                {% if game.backlogged == 'Yes' %}
-                  &#9733;
-                {% else %}
-                  &#9734;
-                {% endif %}
-              </button>
-            </td>
-            <td>{{ game.title }}</td>
-            <td>{{ platforms[game.platform_id] }}</td>
-            <td>{{ game.format }}</td>
-            <td>{{ game.completion }}</td>
-            <td>
-              <button type="button" class="btn btn-danger btn-sm" onClick="deleteGame({{ game.id }})">
-                &times;
-              </button>
-            </td>
-          </tr>
+              </td>
+              <td scope="row">
+                <button type="button" class="close" onClick="toggleBacklogged({{ game.id }})">
+                  {% if game.backlogged == 'Yes' %}
+                    &#9733;
+                  {% else %}
+                    &#9734;
+                  {% endif %}
+                </button>
+              </td>
+              <td>{{ game.title }}</td>
+              <td>{{ platforms[game.platform_id] }}</td>
+              <td>{{ game.format }}</td>
+              <td>{{ game.completion }}</td>
+              <td>
+                <button type="button" class="btn btn-danger btn-sm" onClick="deleteGame({{ game.id }})">
+                  &times;
+                </button>
+              </td>
+            </tr>
+          {% endif %}
         {% endfor %}
       </tbody>
     </table>
