@@ -15,39 +15,7 @@ def root():
 
 @views.route('/gaming-backlog-manager', methods=['GET', 'POST'])
 @login_required
-def gaming_backlog_manager():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        platform_id = request.form.get('platform_id')
-        format = request.form.get('format')
-        completion = request.form.get('completion')
-        backlogged = "No"
-        if request.form.get('backlogged') == "Yes":
-            backlogged = "Yes"
-        
-        if len(title) < 1:
-            flash('Please enter a title.', category='danger')
-        elif len(title) > 128:
-            flash('Title is too long!', category='danger')
-        elif platform_id == 'Select platform':
-            flash('Please select a platform.', category='danger')
-        elif format == 'Select format':
-            flash('Please select a format.', category='danger')
-        elif completion == 'Select completion':
-            flash('Please select a completion.', category='danger')
-        else:
-            new_game = Game(
-                title=title,
-                platform_id=platform_id,
-                format=format,
-                completion=completion,
-                backlogged=backlogged,
-                user_id=current_user.id
-            )
-            db.session.add(new_game)
-            db.session.commit()
-            flash('Game successfully added!', category='success')
-    
+def gaming_backlog_manager():    
     platforms_dict = dict()
     platform_query = Platform.query.filter(Platform.user_id == current_user.id).all()
     for platform in platform_query:
@@ -111,3 +79,65 @@ def toggle_backlogged():
     db.session.commit()
     
     return jsonify({})
+
+@views.route('/add-game', methods=['POST'])
+def add_game():
+    title = request.form.get('title')
+    platform_id = request.form.get('platform_id')
+    format = request.form.get('format')
+    completion = request.form.get('completion')
+    backlogged = "No"
+    if request.form.get('backlogged') == "Yes":
+        backlogged = "Yes"
+    
+    if len(title) < 1:
+        flash('Please enter a title.', category='danger')
+    elif len(title) > 128:
+        flash('Title is too long!', category='danger')
+    elif platform_id == 'Select platform':
+        flash('Please select a platform.', category='danger')
+    elif format == 'Select format':
+        flash('Please select a format.', category='danger')
+    elif completion == 'Select completion':
+        flash('Please select a completion.', category='danger')
+    else:
+        new_game = Game(
+            title=title,
+            platform_id=platform_id,
+            format=format,
+            completion=completion,
+            backlogged=backlogged,
+            user_id=current_user.id
+        )
+        db.session.add(new_game)
+        db.session.commit()
+        flash('Game successfully added!', category='success')
+    
+    return redirect(url_for('views.gaming_backlog_manager'))
+
+@views.route('/edit-game', methods=['POST'])
+def edit_game():
+    id = request.form.get('id')
+    title = request.form.get('title')
+    platform_id = request.form.get('platform_id')
+    format = request.form.get('format')
+    completion = request.form.get('completion')
+    backlogged = "No"
+    if request.form.get('backlogged') == "Yes":
+        backlogged = "Yes"
+    
+    if len(title) < 1:
+        flash('Please enter a title.', category='danger')
+    elif len(title) > 128:
+        flash('Title is too long!', category='danger')
+    else:
+        game = Game.query.get(id)
+        game.title = title
+        game.platform_id = platform_id
+        game.format = format
+        game.completion = completion
+        game.backlogged = backlogged
+        db.session.commit()
+        flash('Game successfully edited!', category='success')
+    
+    return redirect(url_for('views.gaming_backlog_manager'))
