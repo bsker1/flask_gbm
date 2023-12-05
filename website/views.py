@@ -91,6 +91,12 @@ def toggle_backlog_list():
     
     return jsonify({})
 
+@views.route('/get-random-game', methods=['POST'])
+def get_random_game():
+    randomIndex = json.loads(request.data)['randomIndex']
+    flash(f'Your game is {current_user.games[randomIndex].title}!', category='success')
+
+    return jsonify({})
 
 @views.route('/add-game', methods=['POST'])
 def add_game():

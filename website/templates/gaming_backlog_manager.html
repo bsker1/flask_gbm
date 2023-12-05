@@ -6,76 +6,85 @@
   <h1 align="center">Gaming Backlog Manager</h1>
   <br />
 
-  <div class="dropdown">
-    <button
-      class="btn btn-success dropdown-toggle"
-      type="button"
-      id="add_game_dropdown"
-      data-toggle="dropdown"
-      style="margin-left: 15px;"
-    >
-      Add Game
-    </button>
-    <div class="dropdown-menu" aria-labelledby="add_game_dropdown">
-      <div class="dropdown-item">
-        <form action="/add-game" method="POST" style="margin-top: 5px; margin-bottom: 5px;">
-          <div class="form-group">
-            <label for="title"><h5>Game title</h5></label>
-            <input
-              type="text"
-              class="form-control"
-              id="title"
-              name="title"
-              placeholder="Enter title"
-            />
-          </div>
-          <label for="platform_id"><h5>Platform</h5></label>
-          <select style="margin-left: 5px;" id="platform_id" name="platform_id">
-            <option selected>Select platform</option>
-            {% for platform in user.platforms %}
-              <option value="{{ platform.id }}">{{ platform.title }}</option>
-            {% endfor %}
-          </select>
-          <p style="margin-left: 15px; margin-top: -15px;">
-            <small>Don't see your desired platform? Add it on the 
-              <a href="/platforms">Platforms</a> page!
-            </small>
-          </p>
-          <label for="format"><h5>Format</h5></label>
-          <select style="margin-left: 5px;" id="format" name="format">
-            <option selected>Select format</option>
-            <option value="Physical">Physical</option>
-            <option value="Digital">Digital</option>
-            <option value="Emulated">Emulated</option>
-          </select>
-          <br />
-          <label for="completion"><h5>Completion</h5></label>
-          <select style="margin-left: 5px;" id="completion" name="completion">
-            <option selected>Select completion</option>
-            <option value="New">New</option>
-            <option value="Started">Started</option>
-            <option value="Complete">Complete</option>
-          </select>
-          <div class="form-group">
-            <label for="backlog_it"><h5>Backlog it?</h5></label>
-            <input
-              type="checkbox"
-              class="form-check-input form-check-input-lg"
-              style="margin-left: 10px; margin-top: 6px;"
-              id="backlogged"
-              name="backlogged"
-              value="Yes"
-            />
-          </div>
-          <button type="submit" class="btn btn-success">Add Game</button>
-        </form>
+  <div class="btn-toolbar" role="toolbar">
+    <div class="dropdown mr-2">
+      <button
+        class="btn btn-success dropdown-toggle"
+        type="button"
+        id="add_game_dropdown"
+        data-toggle="dropdown"
+        style="margin-left: 15px;"
+      >
+        Add Game
+      </button>
+      <div class="dropdown-menu" aria-labelledby="add_game_dropdown">
+        <div class="dropdown-item">
+          <form action="/add-game" method="POST" style="margin-top: 5px; margin-bottom: 5px;">
+            <div class="form-group">
+              <label for="title"><h5>Game title</h5></label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                placeholder="Enter title"
+              />
+            </div>
+            <label for="platform_id"><h5>Platform</h5></label>
+            <select style="margin-left: 5px;" id="platform_id" name="platform_id">
+              <option selected>Select platform</option>
+              {% for platform in user.platforms %}
+                <option value="{{ platform.id }}">{{ platform.title }}</option>
+              {% endfor %}
+            </select>
+            <p style="margin-left: 15px; margin-top: -15px;">
+              <small>Don't see your desired platform? Add it on the 
+                <a href="/platforms">Platforms</a> page!
+              </small>
+            </p>
+            <label for="format"><h5>Format</h5></label>
+            <select style="margin-left: 5px;" id="format" name="format">
+              <option selected>Select format</option>
+              <option value="Physical">Physical</option>
+              <option value="Digital">Digital</option>
+              <option value="Emulated">Emulated</option>
+            </select>
+            <br />
+            <label for="completion"><h5>Completion</h5></label>
+            <select style="margin-left: 5px;" id="completion" name="completion">
+              <option selected>Select completion</option>
+              <option value="New">New</option>
+              <option value="Started">Started</option>
+              <option value="Complete">Complete</option>
+            </select>
+            <div class="form-group">
+              <label for="backlog_it"><h5>Backlog it?</h5></label>
+              <input
+                type="checkbox"
+                class="form-check-input form-check-input-lg"
+                style="margin-left: 10px; margin-top: 6px;"
+                id="backlogged"
+                name="backlogged"
+                value="Yes"
+              />
+            </div>
+            <button type="submit" class="btn btn-success">Add Game</button>
+          </form>
+        </div>
       </div>
     </div>
+    <button
+      class="btn btn-info text-right"
+      type="button"
+      onclick="getRandomGame()"
+    >
+      Random
+    </button>
   </div>
   <br />
 
   <div class="container">
-    <table class="table table-hover">
+    <table class="table table-hover" id="gamesTable">
       <thead>
         <tr>
           <th scope="col"></th>

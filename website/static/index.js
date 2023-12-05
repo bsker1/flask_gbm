@@ -33,3 +33,14 @@ function toggleBacklogList(isListed) {
     window.location.href = "/gaming-backlog-manager";
   });
 }
+
+function getRandomGame() {
+  rows = document.getElementById("gamesTable").rows;
+  randomIndex = Math.floor(Math.random() * rows.length);
+  fetch("/get-random-game", {
+    method: "POST",
+    body: JSON.stringify({ randomIndex: randomIndex}),
+  }).then((_res) => {
+    window.location.href = "/gaming-backlog-manager";
+  });
+}
